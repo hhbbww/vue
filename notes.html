@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        list-style:none;
+    }
+    html ,body{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+        background: #effaff;
+    }
+    header{
+        width:100%;
+        height:80px;
+        background: #0b0b0b;
+    }
+    section{
+        width:100%;
+        height:calc(100% - 80px);
+        position: relative;
+
+    }
+
+    .list{
+        width: 150px;
+        height:150px;
+        border-radius: 5px;
+        position: absolute;
+        text-align: center;
+        line-height: 150px;
+    }
+    textarea{
+        width:100px;
+        
+    }
+</style>
+<body>
+<div id="app">
+
+    <header></header>
+    <section>
+        {{name}}
+        <notes v-for="(item,index) in notes" :msg="item" :key="index" :aa="name" v-on:schange="update"></notes>
+    </section>
+</div>
+</body>
+<script>
+
+
+
+    Vue.component('notes',{
+        props:['msg','aa'],
+        data:function () {
+          return {
+              smsg:Object.assign({},this.msg)
+          }
+        },
+        template:`
+            <div class="list" v-bind:style="{left:smsg.x+'px',top:smsg.y+'px',border:'1px solid ' + smsg.color}">
+
+            <textarea v-model="smsg.content"></textarea>
+            <button @click="smsg.x+=20">{{smsg.content}}</button>
+</div>
+        `,
+        methods:{
+            change() {
+//                this.name += 'hello';
+//                this.$emit('pchange', this.name)
+            }
+        },
+        watch:{
+            'smsg':{
+                handler:function () {
+                    this.$emit('schange',this.smsg)
+                },
+                deep:true
+            }
+        }
+    });
+
+    let app = new Vue({
+        el:'#app',
+        data:{
+            notes:[],
+            name:'zhangsan'
+        },
+        methods:{
+          update(v){
+            let index = 0;
+            this.notes.forEach((element,i)=>{
+                if(element.id == v.id){
+                    index = i;
+                }
+            })
+              this.notes.splice(index,1,v)
+          }
+        },
+        mounted(){
+            this.notes = JSON.parse(localStorage.notes)
+        },
+        watch:{
+            'notes':{
+                handler:function () {
+                    localStorage.notes = JSON.stringify(this.notes)
+                },
+                deep:true
+            }
+        }
+    })
+</script>
+</html>
