@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="root">
+    {{name}}
+    {{name}}
+    {{age}}
+    {{sex}}
+    {{sex}}
+    <br>
+    <span @click="aa">name</span>
+    <span @click="bb">age</span>
+    <span @click="cc">sex</span>
+</div>
+<script>
+    /*
+    *
+    * mvc
+    *
+    *   mvvm  mvc  双向数据绑定
+    * */
+    var obj=new Vue({
+        el:"#root",
+        data:{
+            name:"zhangsan",
+            age:"12",
+            sex:"woman"
+        },
+        methods:{
+            aa(){
+                this.name="lisi"
+            },
+            bb(){
+                this.age=Math.random()
+            },
+            cc(){
+                this.sex="man"
+            }
+        },
+        beforeCreate(){
+            console.log(1);
+        },
+        created(){
+            console.log(2);
+        },
+        beforeMount(){
+            console.log(3);
+        },
+        mounted(){
+            console.log(4);
+        },
+        beforeUpdate(){
+            console.log(5);
+        },
+        updated(){
+            console.log(6);
+        }
+    })
+</script>
+</body>
+</html>
