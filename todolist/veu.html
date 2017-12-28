@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="todlist.css">
+    <script src="vue.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+ <div id="app">
+     <div class="box">
+         <input type="text" placeholder="请输入事项"  v-model="con" @keyup.13="add" v-focus>
+         <ul class="list">
+             <div class="shi">
+                 <input type="button" @click="changestatus('all')" value="全部" :class="status=='all'?'hot':''">
+                 <input type="button" @click="changestatus('0')" value="未完成" :class="status=='0'?'hot':''">
+                 <input type="button" @click="changestatus('1')" value="已完成" :class="status=='1'?'hot':''">
+             </div>
+             <li v-for="item in datas" v-if="item.edit">
+
+                     <span class="type" @click="changesta(item)" :class="item.status=='1'?'hot':''"></span>
+                     <p  @dblclick="edit(item)">
+                         {{item.title}}
+                     </p>
+                     <span class="del" @click="del(item.id)">删除</span>
+
+             </li>
+             <li v-else="item.edit">
+                 <input type="text" v-model="item.title" @blur="edit(item)">
+             </li>
+             <div class="tishi" v-show="all.length == 0">
+                 没有数据
+             </div>
+         </ul>
+     </div>
+
+ </div>
+</body>
+<script src="todolist.js"></script>
+</html>
